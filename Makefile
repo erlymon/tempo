@@ -1,15 +1,12 @@
 .PHONY: deps skiptest tempo eunit test doc clean distclean
 
-REBAR=rebar
+REBAR=rebar3
 
 all: tempo eunit
 
 skip_test: tempo
 
-deps:
-	$(REBAR) get-deps
-
-tempo: deps
+tempo:
 	$(REBAR) compile
 
 eunit: tempo

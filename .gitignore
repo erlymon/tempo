@@ -8,3 +8,5 @@ deps/
 .eunit/
 core
 c_src/tempo.d
+_build
+rebar.lock
