@@ -4,6 +4,11 @@
 
 __Authors:__ Dmitry Groshev ([`lambdadmitry@gmail.com`](mailto:lambdadmitry@gmail.com)), Sergei Levedev ([`superbobry@gmail.com`](mailto:superbobry@gmail.com)).
 
+Fork of the main repo with `rebar3` support branch. To use it add to the dependencies your `rebar.config` the following line:
+
+```
+{tempo, ".*", {git, "git://github.com/Mendor/tempo.git", {branch, "rebar3"}}}
+```
 
 `tempo` is a library for parsing and formatting dates in
 Erlang. It provides a clean and nice interface to libc's
