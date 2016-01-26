@@ -1,9 +1,14 @@
 
 
-# tempo [![Build Status](https://secure.travis-ci.org/selectel/tempo.png)](http://travis-ci.org/selectel/tempo) #
+# tempo [![Build Status](https://travis-ci.org/selectel/tempo.svg)](http://travis-ci.org/selectel/tempo) #
 
 __Authors:__ Dmitry Groshev ([`lambdadmitry@gmail.com`](mailto:lambdadmitry@gmail.com)), Sergei Levedev ([`superbobry@gmail.com`](mailto:superbobry@gmail.com)).
 
+Fork of the main repo with `rebar3` support branch. To use it add to the dependencies your `rebar.config` the following line:
+
+```
+{tempo, ".*", {git, "git://github.com/Mendor/tempo.git", {branch, "rebar3"}}}
+```
 
 `tempo` is a library for parsing and formatting dates in
 Erlang. It provides a clean and nice interface to libc's
@@ -25,9 +30,9 @@ and [`tempo:format/2`](https://github.com/selectel/tempo/blob/master/doc/tempo.m
 
 ```
 1> {ok, Bin} = tempo:format(iso8601, {now, now()}).
-{ok,<<"2013-01-05T13:29:18+0400">>}
+{ok,<<"2016-01-11T19:25:26Z">>}
 2> tempo:parse(iso8601, {datetime, Bin}).
-{ok,{{2013,1,5},{13,29,18}}}
+{ok,{{2016,1,11},{19,25,26}}}
 ```
 
 As you might have noticed, both of the functions follow a common

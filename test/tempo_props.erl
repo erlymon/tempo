@@ -4,7 +4,7 @@
 -include_lib("eunit/include/eunit.hrl").
 
 -define(TYPES, [unix, now, datetime]).
--define(ISO8601, "%Y-%m-%dT%H:%M:%S%z").
+-define(ISO8601, "%Y-%m-%dT%H:%M:%SZ").
 -define(EXTRASEQS, ["%a", "%A", "%b", "%B", "%c", "%d", "%F", "%H",
                     "%j", "%m", "%M", "%p", "%S", "%U", "%w",
                     "%W", "%x", "%X", "%y", "%Y"]).
@@ -16,8 +16,14 @@
 standard_format() -> oneof(?PREDEFINED).
 
 extra_part() ->
+    %% strptime on OS X produces error when %p and %H are specified and
+    %% hour > 12
+    ExtraSeqs = case os:type() of
+                    {unix, darwin} -> ?EXTRASEQS -- ["%p"];
+                    _              -> ?EXTRASEQS
+                end,
     ?LET(N, integer(1, 15),
-         vector(N, oneof(?EXTRASEQS))).
+         vector(N, oneof(ExtraSeqs))).
 
 unambiguous_format() ->
     ?LET({Extra, Separator},
@@ -28,8 +34,12 @@ unambiguous_format() ->
          end).
 
 datetime() ->
+    YearMin = case os:type() of
+                  {unix, darwin} -> 1902;
+                  _              -> 0
+              end,
     ?LET({Year, Month, Day, Hour, Minute, Second},
-         {integer(0, 2042), integer(1, 12), integer(1, 28),
+         {integer(YearMin, 2042), integer(1, 12), integer(1, 28),
           integer(0, 23), integer(0, 59), integer(0, 59)},
          {{Year, Month, Day}, {Hour, Minute, Second}}).
 
